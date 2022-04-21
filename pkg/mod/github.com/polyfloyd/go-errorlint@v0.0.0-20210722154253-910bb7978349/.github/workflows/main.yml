@@ -1,0 +1,19 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron:  '0 0 * * 1' # weekly
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Get dependencies
+      run: go get -v -t -d ./...
+    - name: go build
+      run: go build -v
+    - name: go test
+      run: go test -test.v -race -cover
